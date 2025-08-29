@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Chaitu@1290
+      MYSQL_DATABASE: task_management
+    ports:
+      - "3306:3306"
+    networks:
+      - tasknet
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build: ./TaskManagement
+    image: taskmanagement-app
+    container_name: backend-app
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/task_management
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Chaitu@1290
+    ports:
+      - "8080:8080"
+    networks:
+      - tasknet
+
+  frontend:
+    build: ./Task-Management
+    image: taskmanagement-frontend
+    container_name: frontend-app
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+    networks:
+      - tasknet
+
+networks:
+  tasknet:
+    driver: bridge
+
+volumes:
+  mysql_data:

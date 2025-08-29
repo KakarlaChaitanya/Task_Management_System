@@ -1,0 +1,36 @@
+<div class="container py-3">
+  <h3 class="mb-3">Users</h3>
+
+  <form class="row g-2 mb-3" [formGroup]="form" (ngSubmit)="add()">
+    <div class="col-12 col-md-3">
+      <input formControlName="username" class="form-control" placeholder="Username" />
+    </div>
+    <div class="col-12 col-md-4">
+      <input formControlName="email" class="form-control" placeholder="Email" type="email" />
+    </div>
+    <div class="col-12 col-md-3">
+      <input formControlName="password" class="form-control" placeholder="Password" type="password" />
+    </div>
+    <div class="col-12 col-md-2">
+      <button class="btn btn-primary w-100" type="submit" [disabled]="form.invalid">Add</button>
+    </div>
+  </form>
+
+  <table class="table table-sm table-striped">
+    <thead>
+      <tr>
+        <th>#</th><th>Username</th><th>Email</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of users; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ u.username }}</td>
+        <td>{{ u.email }}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-danger" (click)="delete(u)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
